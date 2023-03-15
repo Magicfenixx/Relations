@@ -24,7 +24,7 @@ Route::get('/calculator', [CalculatorController::class, "showForm"] )->name("for
 Route::post( '/calculator/result', [CalculatorController::class, "showResult"])->name("result");
 
 Route::resource("owners", OwnerController::class);
-
+Route::post('owners/search', [OwnerController::class, 'search'])->name('owners.search');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

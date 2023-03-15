@@ -16,7 +16,7 @@ class CarController extends Controller
     public function index()
     {
         return view("cars.index",[
-           'cars'=>Car::all()
+           'cars'=>Car::with('owner')->get()
         ]);
     }
 
@@ -97,6 +97,7 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        //
+        $car->delete();
+        return redirect()->route("cars.index");
     }
 }

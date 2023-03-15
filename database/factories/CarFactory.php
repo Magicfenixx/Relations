@@ -17,9 +17,9 @@ class CarFactory extends Factory
     public function definition():array
     {
         return [
-            'reg_number'=>fake()->password,
+            'reg_number'=>fake()->randomNumber(6),
             'brand'=>fake()->company,
-            'model'=>fake()->text(10)
+            'model'=>fake()->city()
         ];
     }
 }

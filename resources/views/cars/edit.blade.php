@@ -23,6 +23,14 @@
                                 <label l class="form-label" >Model</label>
                                 <input  class="form-control" type="text" name="surname" value="{{ $car->model }}">
                             </div>
+                            <div class="mb-3">
+                                <label l class="form-label" >Owner Name</label>
+                                <input  class="form-control" type="text" readonly name="surname" value="{{ $car->owner->name }}">
+                            </div>
+                            <div class="mb-3">
+                                <label l class="form-label" >Owner Surname</label>
+                                <input  class="form-control" type="text" readonly name="surname" value="{{ $car->owner->surname }}">
+                            </div>
 
                             <button class="btn btn-success">Update</button>
                         </form>

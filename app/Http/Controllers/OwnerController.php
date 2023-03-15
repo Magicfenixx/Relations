@@ -3,26 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\Owner;
+use App\Models\Car;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class OwnerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        $searchOwnerName=$request->session()->get('searchOwnerName');
+        $searchOwnerSurname=$request->session()->get('searchOwnerSurname');
+        if ($searchOwnerName!=null){
+            $owners=Owner::where('name','like',"%$searchOwnerName%")->with('cars')->get();
+        } else if ($searchOwnerSurname!=null){
+        $owners=Owner::where('surname','like',"%$searchOwnerSurname%")->with('cars')->get();
+    }else{
+        $owners=Owner::with('cars')->get();
+    }
         return view("owners.index",[
-            "owners"=>Owner::all()
+            "owners"=>$owners,
+            "searchStudentName"=>$searchOwnerName,
+            "searchStudentSurname"=>$searchOwnerSurname
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -33,7 +46,7 @@ class OwnerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -49,7 +62,7 @@ class OwnerController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Owner  $owner
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Owner $owner)
     {
@@ -60,7 +73,7 @@ class OwnerController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Owner  $owner
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Owner $owner)
     {
@@ -74,7 +87,7 @@ class OwnerController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Owner  $owner
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Owner $owner)
     {
@@ -88,11 +101,19 @@ class OwnerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Owner  $owner
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Owner $owner)
     {
         $owner->delete();
         return redirect()->route("owners.index");
+    }
+
+    public function search(Request $request){
+        $request->session()->put('searchStudentName', $request->name);
+        $request->session()->put('searchStudentSurname', $request->surname);
+        return redirect()->route("students.index");
+
+
     }
 }

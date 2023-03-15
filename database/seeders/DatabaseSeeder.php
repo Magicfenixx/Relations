@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Owner::factory(10)->has(Car::factory()->count(rand(1,5)))->create();
+        Owner::factory(50)->has(Car::factory()->count(rand(1,5)))->create();
     }
 }
