@@ -13,24 +13,21 @@
                             @method("put")
                             <div class="mb-3">
                                 <label class="form-label">Reg_number</label>
-                                <input  class="form-control" type="text" name="name" value="{{ $car->reg_number }}">
+                                <input  class="form-control" type="text" name="reg_number" value="{{ $car->reg_number }}">
                             </div>
                             <div class="mb-3">
                                 <label l class="form-label" >Brand</label>
-                                <input  class="form-control" type="text" name="surname" value="{{ $car->brand }}">
+                                <input  class="form-control" type="text" name="brand" value="{{ $car->brand }}">
                             </div>
                             <div class="mb-3">
                                 <label l class="form-label" >Model</label>
-                                <input  class="form-control" type="text" name="surname" value="{{ $car->model }}">
+                                <input  class="form-control" type="text" name="model" value="{{ $car->model }}">
                             </div>
-                            <div class="mb-3">
-                                <label l class="form-label" >Owner Name</label>
-                                <input  class="form-control" type="text" readonly name="surname" value="{{ $car->owner->name }}">
-                            </div>
-                            <div class="mb-3">
-                                <label l class="form-label" >Owner Surname</label>
-                                <input  class="form-control" type="text" readonly name="surname" value="{{ $car->owner->surname }}">
-                            </div>
+                            <select class="form-select" name="owner_id">
+                                @foreach($owners as $owner)
+                                    <option value="{{ $owner->id }}">{{ $owner->name  }} {{ $owner->surname }}</option>
+                                @endforeach
+                            </select>
 
                             <button class="btn btn-success">Update</button>
                         </form>

@@ -23,11 +23,17 @@ Route::get('/', function () {
 Route::get('/calculator', [CalculatorController::class, "showForm"] )->name("form");
 Route::post( '/calculator/result', [CalculatorController::class, "showResult"])->name("result");
 
-Route::resource("owners", OwnerController::class);
 Route::post('owners/search', [OwnerController::class, 'search'])->name('owners.search');
+
+Route::resource("cars", CarController::class)->middleware('auth');
+
+Route::resource("owners", \App\Http\Controllers\OwnerController::class)->middleware('admin')->except(['index']);
+Route::resource("cars", CarController::class)->middleware('admin')->except(['index']);
+
+Route::get("/owners",[\App\Http\Controllers\OwnerController::class, "index"])->name("owners.index")->middleware('replace');
+Route::get("/cars",[\App\Http\Controllers\CarController::class, "index"])->name("cars.index")->middleware('replace');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
-Route::resource("cars", CarController::class);

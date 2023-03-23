@@ -22,13 +22,15 @@ class OwnerController extends Controller
             $owners=Owner::where('name','like',"%$searchOwnerName%")->with('cars')->get();
         } else if ($searchOwnerSurname!=null){
         $owners=Owner::where('surname','like',"%$searchOwnerSurname%")->with('cars')->get();
-    }else{
+    }else
+    {
         $owners=Owner::with('cars')->get();
     }
+//        dd("hello");
         return view("owners.index",[
             "owners"=>$owners,
-            "searchStudentName"=>$searchOwnerName,
-            "searchStudentSurname"=>$searchOwnerSurname
+            "searchOwnerName"=>$searchOwnerName,
+            "searchOwnerSurname"=>$searchOwnerSurname
         ]);
     }
 
@@ -53,7 +55,6 @@ class OwnerController extends Controller
         $owner=new Owner();
         $owner->name=$request->name;
         $owner->surname=$request->surname;
-        $owner->year=$request->year;
         $owner->save();
         return redirect()->route("owners.index");
     }
@@ -110,9 +111,9 @@ class OwnerController extends Controller
     }
 
     public function search(Request $request){
-        $request->session()->put('searchStudentName', $request->name);
-        $request->session()->put('searchStudentSurname', $request->surname);
-        return redirect()->route("students.index");
+        $request->session()->put('searchOwnerName', $request->name);
+        $request->session()->put('searchOwnerSurname', $request->surname);
+        return redirect()->route("owners.index");
 
 
     }

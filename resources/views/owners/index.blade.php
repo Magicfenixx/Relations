@@ -1,4 +1,4 @@
-{{--@extends('layouts.app')--}}
+@extends('layouts.app')
 
 @section('content')
     <div class="container">
@@ -24,7 +24,7 @@
                             @csrf
                             <div class="mb-3">
                                 <label class="form-label">Surname:</label>
-                                <input class="form-control" name="name" value="{{ $searchOwnerSurname }}">
+                                <input class="form-control" name="surname" value="{{ $searchOwnerSurname }}">
                             </div>
                             <button class="btn btn-success">Search</button>
                         </form>
