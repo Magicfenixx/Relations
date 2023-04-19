@@ -5,17 +5,17 @@
         <div class="row ">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Cars </div>
+                    <div class="card-header">{{__("Cars")}} </div>
 
                     <div class="card-body">
-                        <a class="btn btn-info" href="{{route("cars.create")}}">Add new car</a>
+                        <a class="btn btn-info" href="{{route("cars.create")}}">{{__("Add new car")}}</a>
                         <table class="table" >
                             <thead>
                             <tr>
-                                <th>Car</th>
-                                <th>Brand</th>
-                                <th>Model</th>
-                                <th>Owner</th>
+                                <th>{{__("Car")}}</th>
+                                <th>{{__("Brand")}}</th>
+                                <th>{{__("Model")}}</th>
+                                <th>{{__("Owner")}}</th>
 
 
                             </tr>
@@ -29,13 +29,13 @@
                                     <td>{{ $car->model }}</td>
                                     <td>{{ $car->owner->name }} {{ $car->owner->surname }}</td>
                                     <td style="width: 100px;">
-                                        <a class="btn btn-success" href="{{ route("cars.edit",$car->id) }}">Edit</a>
+                                        <a class="btn btn-success" href="{{ route("cars.edit",$car->id) }}">{{__("Edit")}}</a>
                                     </td>
                                     <td style="width: 100px;">
                                         <form method="post" action="{{ route('cars.destroy',$car->id) }}">
                                             @csrf
                                             @method("delete")
-                                            <button class="btn btn-danger">Delete</button>
+                                            <button class="btn btn-danger">{{__("Delete")}}</button>
                                         </form>
                                     </td>
 

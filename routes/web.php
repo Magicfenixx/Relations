@@ -4,6 +4,7 @@ use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\OwnerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ Route::resource("cars", CarController::class)->middleware('admin')->except(['ind
 
 Route::get("/owners",[\App\Http\Controllers\OwnerController::class, "index"])->name("owners.index")->middleware('replace');
 Route::get("/cars",[\App\Http\Controllers\CarController::class, "index"])->name("cars.index")->middleware('replace');
+Route::get("/setLanguage/{lang}", [LanguageController::class, 'setLanguage'])->name("lang");
 
 Auth::routes();
 

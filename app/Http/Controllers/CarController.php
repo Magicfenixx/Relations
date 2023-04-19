@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\Owner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class CarController extends Controller
 {
@@ -13,7 +14,7 @@ class CarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return view("cars.index",[
            'cars'=>Car::with('owner')->get()
@@ -40,6 +41,16 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'reg_number'=>'required|digits:6',
+            'brand'=>'required|min:2',
+            'model'=>'required|min:2'
+        ],[
+            "reg_number"=>__("Registration number is required and must be 6 digits"),
+            "brand"=>__("Brand is required and must be at least 2 characters"),
+            "model"=>__("Model must be provided and must have at least 2 characters")
+        ]);
+
         $car=new Car();
         $car->reg_number=$request->reg_number;
         $car->brand=$request->brand;
@@ -66,8 +77,18 @@ class CarController extends Controller
      * @param  \App\Models\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function edit(Car $car)
+    public function edit(Car $car, Request $request)
     {
+//        $request->validate([
+//            'reg_number'=>'required|digits:6',
+//            'brand'=>'required|min:2',
+//            'model'=>'required|min:2'
+//        ],[
+//            "reg_number"=>__("Registration number is required and must be 6 digits"),
+//            "brand"=>__("Brand is required and must be at least 2 characters"),
+//            "model"=>__("Model must be provided and must have at least 2 characters")
+//        ]);
+
         return view("cars.edit",[
             "car" =>$car,
             "owners"=>Owner::all()
