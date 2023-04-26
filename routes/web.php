@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OwnerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;

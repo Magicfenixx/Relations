@@ -19,7 +19,7 @@
                         </div>
 @endif
                         -->
-                        <form method="post" action="{{ route('cars.update',$car->id) }}">
+                        <form method="post" action="{{ route('cars.update',$car->id) }}"  enctype="multipart/form-data" >
                             @csrf
                             @method("put")
                             <div class="mb-3">
@@ -40,7 +40,10 @@
                                     <option value="{{ $owner->id }}">{{ $owner->name  }} {{ $owner->surname }}</option>
                                 @endforeach
                             </select>
-
+                            <div class="mb-3">
+                                <label  class="form-label" >{{__("Image")}}</label>
+                                <input  class="form-control" type="file" name="image" value="{{ $images->image }}">
+                            </div>
                             <button class="btn btn-success">{{__("Update")}}</button>
                         </form>
                     </div>

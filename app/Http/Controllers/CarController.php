@@ -17,7 +17,7 @@ class CarController extends Controller
     public function index(Request $request)
     {
         return view("cars.index",[
-           'cars'=>Car::with('owner')->get()
+           'cars'=>Car::with('owner')->get(),
         ]);
     }
 
@@ -29,6 +29,7 @@ class CarController extends Controller
     public function create()
     {
         return view("cars.create",[
+            'cars'=>Car::with('owner')->get(),
             "owners"=>Owner::all()
         ]);
     }
@@ -77,7 +78,7 @@ class CarController extends Controller
      * @param  \App\Models\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function edit(Car $car, Request $request)
+    public function edit(Car $car, Image $image, Request $request)
     {
 //        $request->validate([
 //            'reg_number'=>'required|digits:6',
@@ -91,6 +92,7 @@ class CarController extends Controller
 
         return view("cars.edit",[
             "car" =>$car,
+            "images" =>$image->image,
             "owners"=>Owner::all()
         ]);
     }
@@ -102,11 +104,16 @@ class CarController extends Controller
      * @param  \App\Models\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Car $car)
+    public function update(Request $request, Car $car, Image $image)
     {
         $car->reg_number=$request->reg_number;
         $car->brand=$request->brand;
         $car->model=$request->model;
+        $image->image=$request->image;
+        if($request->file("image")!=null) {
+            $request->file("image")->store("/public/carsimage");
+            $image->image = $request->file('image')->hashName();
+        }
         $car->save();
         return redirect()->route("cars.index");
     }
