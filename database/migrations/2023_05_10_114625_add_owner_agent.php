@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cars_images', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('car_id');
-            $table->string("image", 126)->nullable()->default(null);
-            $table->foreign('car_id')->references('id')->on('cars');
-            $table->timestamps();
-
-
+        Schema::table('owners', function (Blueprint $table) {
+            $table->unsignedBigInteger("agent_id")->default(0);
         });
     }
 
@@ -31,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cars_images');
+        Schema::table('owners', function (Blueprint $table) {
+            $table->dropColumn("agent_id");
+        });
     }
 };

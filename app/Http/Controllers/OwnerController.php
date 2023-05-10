@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\App;
 
 class OwnerController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Owner::class, 'owner');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +32,16 @@ class OwnerController extends Controller
         $owners=Owner::with('cars')->get();
     }
 //        dd("hello");
+        // Authorize the user to view any owners
+        $this->authorize('viewAny', Owner::class);
+
+        // Retrieve all owners that the user is authorized to view
+        if($request->user()->can('admin')){
+            $owners=Owner::all();
+        }else {
+            $owners = auth()->user()->can('viewAny', Owner::class)? Owner::where('agent_id', auth()->user()->id)->get() : null;
+        }
+        // Return view with owners data
         return view("owners.index",[
             "owners"=>$owners,
             "searchOwnerName"=>$searchOwnerName,

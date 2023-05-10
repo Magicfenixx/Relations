@@ -30,6 +30,7 @@
                         </form>
                         <hr>
                         <table class="table" >
+{{--                            @can('view', \App\Models\Owner::class)--}}
                             <thead>
                             <tr>
                                 <th>{{__("Name")}}</th>
@@ -63,6 +64,7 @@
                                 </tr>
                             @endforeach
                             </tbody>
+{{--                            @endcan--}}
                         </table>
                     </div>
                 </div>

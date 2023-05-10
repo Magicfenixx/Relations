@@ -16,10 +16,40 @@ class CarController extends Controller
      */
     public function index(Request $request)
     {
-        return view("cars.index",[
-           'cars'=>Car::with('owner')->get(),
-        ]);
+        if($request->user()->can('admin')){
+            $cars=Car::all();
+        }else
+        {
+            $this->authorize('viewAny', Owner::class);
+
+            $cars = Car::whereHas('owner', function ($query) {
+                $query->where('agent_id', auth()->user()->id);
+            })->get();
+
+
+        }
+        return view('cars.index', ['cars' => $cars]);
     }
+   /* public function index(Request $request, Owner $owner)
+    {
+           if($request->user()->can('admin')){
+            view("cars.index",[
+                'cars'=>Car::with('owner')->get(),
+            ]);
+        }else {
+            // Authorize the user to view the specified owner's cars
+            $this->authorize('viewCars', [$owner]);
+
+            // Retrieve the cars that belong to the specified owner
+            $cars = auth()->user()->can('viewCars', [$owner]) ? $owner->cars : null;
+
+            // Return view with cars data
+               return view('cars.index', compact('cars'));
+        }
+    //    return view("cars.index",[
+     //      'cars'=>Car::with('owner')->get(),
+    //    ]);
+    }*/
 
     /**
      * Show the form for creating a new resource.
